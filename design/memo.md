@@ -55,10 +55,19 @@
 
 4種の設計モデル
 * コンポーネント設計
+  * アーキテクチャの構成要素を関係性とともに示す
 * インタフェース設計
+  * 情報(データや制御、処理など)の流れや具体的な振る舞いを定義
+  * 利用シナリオや振る舞いのモデルから定義されることが大半
 * アーキテクチャ設計
+  * ソフウェアの主要な構成要素の関係を定義
+  * システムが要求を満たすために利用するパターン、実現手法の制約を定義
 * データ設計・クラス設計
+  * CRCモデルで定義したオブジェクトやその関係性および属性をもとに具体的な設計クラスに変換
 
+
+設計時に行う決定は、最終的にソフトウェアの構築が成功するかどうかに影響する。 
+また、同じくらい重要なのが、容易に保守できるソフトウェアになるかどうかにも影響する点である。 
 
 
 # モデルで複雑さを扱う
@@ -99,218 +108,4 @@
 
 
 # SOLIDの原則(WIP)
-## S - Single Responsibility Principle
-## 単一責任の原則
-
----
-
-## 原則の定義
-
-**1つのコンポーネント(またはモジュール)は、1つの責任だけを持つべき**
-
-言い換えると:
-- 変更する理由は1つだけであるべき
-- 1つのことだけをうまくやるべき
-
----
-
-## 悪い例: 責任が多すぎるコンポーネント
-
-```jsx
-function UserProfile() {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  // データ取得の責任
-  useEffect(() => {
-    setLoading(true);
-    fetch('/api/user')
-      .then(res => res.json())
-      .then(data => setUser(data))
-      .catch(err => setError(err))
-      .finally(() => setLoading(false));
-  }, []);
-
-  // バリデーションの責任
-  const validateEmail = (email) => {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  };
-
-  // 更新処理の責任
-  const handleUpdate = async (newData) => {
-    if (!validateEmail(newData.email)) {
-      alert('Invalid email');
-      return;
-    }
-    await fetch('/api/user', {
-      method: 'PUT',
-      body: JSON.stringify(newData)
-    });
-  };
-
-  // 表示の責任
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-  
-  return (
-    <div>
-      <h1>{user.name}</h1>
-      <p>{user.email}</p>
-      <button onClick={() => handleUpdate(...)}>Update</button>
-      {/* 複雑なフォームUI */}
-    </div>
-  );
-}
-```
-
-**問題点:**
-- データ取得、バリデーション、更新、表示が全部入っている
-- どれか1つを変更したいとき、このコンポーネント全体を触る必要がある
-- テストが難しい
-- 再利用できない
-
----
-
-## 良い例: 責任を分離
-
-### 1. データ取得はカスタムフックへ
-
-```jsx
-// hooks/useUser.js
-function useUser() {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    setLoading(true);
-    fetch('/api/user')
-      .then(res => res.json())
-      .then(data => setUser(data))
-      .catch(err => setError(err))
-      .finally(() => setLoading(false));
-  }, []);
-
-  return { user, loading, error };
-}
-```
-
-**責任**: ユーザーデータの取得と状態管理のみ
-
----
-
-### 2. バリデーションは別モジュールへ
-
-```jsx
-// utils/validation.js
-export const validateEmail = (email) => {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-};
-```
-
-**責任**: バリデーションロジックのみ
-
----
-
-### 3. 更新処理は別のフックへ
-
-```jsx
-// hooks/useUserUpdate.js
-function useUserUpdate() {
-  const updateUser = async (newData) => {
-    await fetch('/api/user', {
-      method: 'PUT',
-      body: JSON.stringify(newData)
-    });
-  };
-
-  return { updateUser };
-}
-```
-
-**責任**: ユーザー更新処理のみ
-
----
-
-### 4. 表示は分離されたコンポーネントへ
-
-```jsx
-// components/UserProfile.js
-function UserProfile() {
-  const { user, loading, error } = useUser();
-
-  if (loading) return <LoadingSpinner />;
-  if (error) return <ErrorMessage error={error} />;
-  
-  return <UserDisplay user={user} />;
-}
-
-// components/UserDisplay.js
-function UserDisplay({ user }) {
-  return (
-    <div>
-      <h1>{user.name}</h1>
-      <p>{user.email}</p>
-    </div>
-  );
-}
-```
-
-**責任**: 表示のみ
-
----
-
-## なぜ単一責任が重要か?
-
-### 1. 変更が楽
-- メール表示を変えたい → UserDisplayだけ修正
-- APIエンドポイントを変えたい → useUserだけ修正
-
-### 2. テストしやすい
-- バリデーションだけをテスト
-- データ取得だけをテスト
-- 表示だけをテスト
-
-### 3. 再利用できる
-- useUserは他のコンポーネントでも使える
-- validateEmailは他のフォームでも使える
-
-### 4. 理解しやすい
-- 各ファイルが小さく、何をしているか明確
-
----
-
-## 判断基準: 「変更する理由」を数える
-
-コンポーネントを見て自問:
-
-「このコンポーネントを変更する理由はいくつある?」
-
-- デザインが変わった
-- APIが変わった
-- バリデーションルールが変わった
-- ローディング表示を変えたい
-
-→ **4つも理由がある = 責任が多すぎる**
-
-理想: **変更する理由は1つだけ**
-
----
-
-## 今日のミッション 🎯
-
-今日書くコンポーネント(または既存のコンポーネント)で:
-
-1. **責任を数える**: このコンポーネント、何個の責任を持ってる?
-2. **分離できないか考える**: 
-   - データ取得はカスタムフックに?
-   - ビジネスロジックは別ファイルに?
-   - 表示コンポーネントと分離できる?
-
-気づいたことを `#10min-learning-practice` に投稿
-
-**例:**
-「UserListコンポーネント、データ取得と表示が混ざってた。useUsersフックに分離してみた!」
-
 ---
