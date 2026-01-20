@@ -21,6 +21,9 @@
 - [アーキテクチャデシジョンレコード(ADR)](#アーキテクチャデシジョンレコードadr)
   - [記述](#記述)
   - [テンプレート](#テンプレート)
+- [SOLID原則](#solid原則)
+  - [SRP (Single Responsibility Principle)](#srp-single-responsibility-principle)
+  - [OCP (Open Closed Principle)](#ocp-open-closed-principle)
 
 # 素晴らしいソフトウェアを作り上げる
 ソフトウェアシステムを構築する際に正しく行わなければならないことはたくさんある。
