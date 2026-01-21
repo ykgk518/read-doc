@@ -24,6 +24,10 @@
 - [SOLID原則](#solid原則)
   - [SRP (Single Responsibility Principle)](#srp-single-responsibility-principle)
   - [OCP (Open Closed Principle)](#ocp-open-closed-principle)
+  - [LSP (Liskov Substitution Principle)](#lsp-liskov-substitution-principle)
+  - [ISP (Interface Segregation Principle)](#isp-interface-segregation-principle)
+  - [DIP (Dependency Inversion Principle)](#dip-dependency-inversion-principle)
+- [引用・参考](#引用参考)
 
 # 素晴らしいソフトウェアを作り上げる
 ソフトウェアシステムを構築する際に正しく行わなければならないことはたくさんある。
@@ -298,3 +302,27 @@ YYYY-MM-DD
 ## OCP (Open Closed Principle)
 
 コンポーネントや関数の拡張に対しては開いて、変更に対しては閉じているべき。
+
+## LSP (Liskov Substitution Principle)
+基底クラス(親)を使っているところで、派生クラス(子)に置き換えても、正しく動作すべき。
+
+## ISP (Interface Segregation Principle)
+クライアントは、使わないインターフェースに依存を強制されるべきではない。
+
+## DIP (Dependency Inversion Principle)
+具象ではなく、抽象に依存せよ。
+高レベルモジュールは低レベルモジュールに依存してはならない。両方とも抽象に依存すべき。
+
+# 引用・参考
+* Design It! ―プログラマーのためのアーキテクティング入門
+  * Michael Keeling　著、島田 浩二　訳
+  * https://www.oreilly.co.jp//books/9784873118956/
+* ソフトウェアアーキテクチャの基礎 ―エンジニアリングに基づく体系的アプローチ
+  * Mark Richards、Neal Ford　著、島田 浩二　訳
+  * https://www.oreilly.co.jp//books/9784873119823/
+* Clean Architecture 達人に学ぶソフトウェアの構造と設計
+  * Robert C. Martin(著), 角征典, 髙木正弘(訳)
+  * https://asciidwango.jp/post/176293765750/clean-architecture
+* 実践ソフトウェアエンジニアリング（第9版）
+  * Roger S. Pressman 著、Bruce R. Maxim 著、SEPA翻訳プロジェクト 訳
+  * https://www.ohmsha.co.jp/book/9784274227943/
