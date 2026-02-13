@@ -45,6 +45,15 @@
 - [モデルで複雑さを扱う](#モデルで複雑さを扱う)
 - [パターンの土台を身につける](#パターンの土台を身につける)
 - [データ設計](#データ設計)
+- [コンポーネント設計](#コンポーネント設計)
+  - [設計原則](#設計原則)
+    - [SOLID原則](#solid原則)
+      - [SRP (Single Responsibility Principle)](#srp-single-responsibility-principle)
+      - [OCP (Open Closed Principle)](#ocp-open-closed-principle)
+      - [LSP (Liskov Substitution Principle)](#lsp-liskov-substitution-principle)
+      - [ISP (Interface Segregation Principle)](#isp-interface-segregation-principle)
+      - [DIP (Dependency Inversion Principle)](#dip-dependency-inversion-principle)
+  - [Robert C Martinが提案するパッケージングに関する原則](#robert-c-martinが提案するパッケージングに関する原則)
 - [インタフェース設計](#インタフェース設計)
   - [外部インタフェース](#外部インタフェース)
   - [内部インタフェース](#内部インタフェース)
@@ -54,12 +63,6 @@
 - [アーキテクチャデシジョンレコード(ADR)](#アーキテクチャデシジョンレコードadr)
   - [記述](#記述)
   - [テンプレート](#テンプレート)
-- [SOLID原則](#solid原則)
-  - [SRP (Single Responsibility Principle)](#srp-single-responsibility-principle)
-  - [OCP (Open Closed Principle)](#ocp-open-closed-principle)
-  - [LSP (Liskov Substitution Principle)](#lsp-liskov-substitution-principle)
-  - [ISP (Interface Segregation Principle)](#isp-interface-segregation-principle)
-  - [DIP (Dependency Inversion Principle)](#dip-dependency-inversion-principle)
 - [引用・参考](#引用参考)
 
 # 素晴らしいソフトウェアを作り上げる
@@ -517,6 +520,51 @@ cf [CRCによるモデリング](#潜在的な解決策を探る)
 
 # データ設計
 
+
+# コンポーネント設計
+コンポーネント設計は、アーキテクチャ設計の最初のイテレーションが完了してから開始する。
+
+この時点で、ソフトウェアの扱うデータやプログラム構造は確立しているはずである。
+
+コンポーネントはアーキテクチャの構成要素として、これから構築するシステムの目的や要求を達成する役割を担うもの。
+
+分析モデリングと設計モデリングはいずれも反復的なアクションである。
+
+## 設計原則
+* SOLID原則
+* Robert C Martinが提案するパッケージングに関する原則
+
+### SOLID原則
+1. SRP: 単一責任の原則
+1. OCP: 開放閉鎖の原則
+1. LSP: リスコフの置換原則
+1. ISP: インタフェース分離の原則
+1. DIP: 依存性逆転の原則
+
+#### SRP (Single Responsibility Principle)
+
+> モジュールを変更する理由はたったひとつだけであるべきである。
+
+#### OCP (Open Closed Principle)
+
+コンポーネントや関数の拡張に対しては開いて、変更に対しては閉じているべき。
+
+#### LSP (Liskov Substitution Principle)
+基底クラス(親)を使っているところで、派生クラス(子)に置き換えても、正しく動作すべき。
+
+#### ISP (Interface Segregation Principle)
+クライアントは、使わないインターフェースに依存を強制されるべきではない。
+
+#### DIP (Dependency Inversion Principle)
+具象ではなく、抽象に依存せよ。
+高レベルモジュールは低レベルモジュールに依存してはならない。両方とも抽象に依存すべき。
+
+
+## Robert C Martinが提案するパッケージングに関する原則
+1. 再利用/リリース等価の原則(REP: The Reuse/Release Equivalency Principle)
+1. 閉鎖性共通の原則(CCP: The Common Closure Principle)
+1. 全再利用の原則(CRP: The Common Reuse Principle)
+
 # インタフェース設計
 インタフェース設計は、システムへ入出力する情報の流れや、アーキテクチャを構成するコンポーネント同士がどのように情報をやりとりするのか表現する。 
 
@@ -639,31 +687,6 @@ YYYY-MM-DD
 - ADR-xxx: [関連するADRがあれば]
 ```
 ---
-
-# SOLID原則
-1. SRP: 単一責任の原則
-1. OCP: 開放閉鎖の原則
-1. LSP: リスコフの置換原則
-1. ISP: インタフェース分離の原則
-1. DIP: 依存性逆転の原則
-
-## SRP (Single Responsibility Principle)
-
-> モジュールを変更する理由はたったひとつだけであるべきである。
-
-## OCP (Open Closed Principle)
-
-コンポーネントや関数の拡張に対しては開いて、変更に対しては閉じているべき。
-
-## LSP (Liskov Substitution Principle)
-基底クラス(親)を使っているところで、派生クラス(子)に置き換えても、正しく動作すべき。
-
-## ISP (Interface Segregation Principle)
-クライアントは、使わないインターフェースに依存を強制されるべきではない。
-
-## DIP (Dependency Inversion Principle)
-具象ではなく、抽象に依存せよ。
-高レベルモジュールは低レベルモジュールに依存してはならない。両方とも抽象に依存すべき。
 
 # 引用・参考
 * Design It! ―プログラマーのためのアーキテクティング入門
