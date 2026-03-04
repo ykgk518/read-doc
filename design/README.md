@@ -930,3 +930,7 @@ YYYY-MM-DD
   * Roger S. Pressman 著、Bruce R. Maxim 著、SEPA翻訳プロジェクト 訳
   * https://www.ohmsha.co.jp/book/9784274227943/
 * https://scrapbox.io/kawasima/%E3%82%A4%E3%83%9F%E3%83%A5%E3%83%BC%E3%82%BF%E3%83%96%E3%83%AB%E3%83%87%E3%83%BC%E3%82%BF%E3%83%A2%E3%83%87%E3%83%AB
+
+* アーキテクトの教科書 価値を生むソフトウェアのアーキテクチャ構築
+  * 米久保 剛 著
+  * https://www.shoeisha.co.jp/book/detail/9784798184777
